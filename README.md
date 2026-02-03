@@ -81,18 +81,16 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-xuan/dbx"
-
 	"github.com/go-xuan/appx"
 	"github.com/go-xuan/appx/ginx"
 	"github.com/go-xuan/appx/serverx"
+	"github.com/go-xuan/dbx"
+	"github.com/go-xuan/utilx/errorx"
 )
 
 func main() {
-	dbx.InitGormTable("default", &User{})
-	appx.NewEngine(
-		appx.AddServer(HttpServer()), // 添加http服务
-	).RUN(context.Background())
+	errorx.Panic(dbx.InitGormTable("default", &User{}))
+	appx.NewEngine(appx.AddServer(HttpServer())).RUN(context.Background())
 }
 
 // HttpServer 创建http服务
@@ -105,9 +103,8 @@ func HttpServer() *serverx.HttpServer {
 
 // BindRouter 绑定api路由
 func BindRouter(engine *gin.Engine) {
-	group := engine.Group("/user")
 	// 用户表增删改查接口注册，仅一行代码就可以实现CRUD
-	ginx.BindCrudRouter[User](group, dbx.GetGormDB("default"))
+	ginx.BindCrudRouter[User](engine.Group("/user"), dbx.GetGormDB("default"))
 }
 
 // User 用户表结构必须实现 schema.Tabler 接口
@@ -127,29 +124,42 @@ func (User) TableName() string {
 
 ```
 
-
 ### 加载自定义配置
+
+需要使用struct结构体进行配置声明，并且实现Configurator配置器接口
+
+config.yaml：
+
+```yaml
+key1: 123
+key2: "456"
+key3:
+  - "abc"
+  - "def"
+```
 
 ```go
 package main
 
 import (
 	"context"
-	
-	"github.com/go-xuan/configx"
-	"github.com/go-xuan/nacosx"
+	"fmt"
 
 	"github.com/go-xuan/appx"
+	"github.com/go-xuan/configx"
+	"github.com/go-xuan/nacosx"
 )
 
 func main() {
-	configx.LoadConfiguratorPanic(config)
+	configx.LoadConfiguratorPanic(&Config{})
 	appx.NewEngine().RUN(context.Background())
 }
 
-var config = &Config{}
-
-type Config struct{}
+type Config struct {
+	Key1 int64    `json:"key1"`
+	Key2 string   `json:"key2"`
+	Key3 []string `json:"key3"`
+}
 
 func (c *Config) Valid() bool {
 	return false
@@ -157,16 +167,18 @@ func (c *Config) Valid() bool {
 
 func (c *Config) Readers() []configx.Reader {
 	return []configx.Reader{
-		nacosx.NewReader("xxxx.json"),
-		configx.NewFileReader("xxxx.json"),
+		nacosx.NewReader("config.yaml"),
+		configx.NewFileReader("config.yaml"),
 	}
 }
 
 func (c *Config) Execute() error {
 	// todo 配置读取后的业务操作
+	fmt.Println(c.Key1)
+	fmt.Println(c.Key2)
+	fmt.Println(c.Key3)
 	return nil
 }
-
 
 ```
 
@@ -180,15 +192,14 @@ quanx框架本身已实现了一些常规配置项的读取和初始化，开发
 
 #### 主配置
 
-主配置文件路径：conf/config.yaml，此配置必须添加。
+主配置文件路径：conf/server.yaml，如果需要启动web服务，添加此配置。
 
 ```yaml
-server:
-  name: quanx-test
-  host: localhost
-  port:
-    http: 8080
-    grpc: 8081
+name: quanx-test
+host: localhost
+port:
+  http: 8080
+  grpc: 8081
 ```
 
 #### nacos配置
@@ -287,68 +298,5 @@ mode: 0                       # int 模式（0-单机；1-集群），默认单�
 ......
 ```
 
-#### 自定义配置
-
-每一项配置都需要在代码中使用struct结构体进行声明，并且实现Configurator配置器接口
-
-demo.yaml：
-
-```yaml
-key1: 123
-key2: "456"
-key3:
-  - "abc"
-  - "def"
-```
-
-对应结构体：
-
-```go
-package main
-
-import (
-	"context"
-	"fmt"
-
-	"github.com/go-xuan/configx"
-	"github.com/go-xuan/nacosx"
-
-	"github.com/go-xuan/quanx/appx"
-)
-
-func main() {
-	appx.NewEngine(
-		appx.AddConfigurator(&Demo{}),
-	).RUN(context.Background())
-}
-
-type Demo struct {
-	Key1 int      `json:"key1" yaml:"key1"`
-	Key2 string   `json:"key2" yaml:"key2"`
-	Key3 []string `json:"key3" yaml:"key3"`
-}
-
-func (d *Demo) Valid() bool {
-	return d.Key1 > 0 && d.Key2 != "" && d.Key3 != nil
-}
-
-func (d *Demo) Readers() []configx.Reader {
-	return []configx.Reader{
-		configx.NewFileReader("demo.yaml"),
-		configx.NewFileReader("demo.json"),
-		nacosx.NewReader("demo.yaml"),
-	}
-}
-
-func (d *Demo) Execute() error {
-	// todo 完成配置读取后需要进行的操作
-	fmt.Println(d.Key1)
-	fmt.Println(d.Key2)
-	fmt.Println(d.Key3)
-	return nil
-}
-
-
-```
 
 
