@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/gin-gonic/gin v1.12.0
-	github.com/go-xuan/cachex v1.26.6
+	github.com/go-xuan/cachex v1.26.7
 	github.com/go-xuan/configx v1.26.7
 	github.com/go-xuan/nacosx v1.26.7
 	github.com/go-xuan/typex v1.26.0
@@ -51,7 +51,7 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/quic-go/qpack v0.6.0 // indirect
 	github.com/quic-go/quic-go v0.59.0 // indirect
-	github.com/redis/go-redis/v9 v9.17.3 // indirect
+	github.com/redis/go-redis/v9 v9.18.0 // indirect
 	github.com/tealeg/xlsx v1.0.5 // indirect
 	github.com/tidwall/gjson v1.18.0 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
@@ -60,7 +60,7 @@ require (
 	github.com/ugorji/go/codec v1.3.1 // indirect
 	github.com/vmihailenco/msgpack v4.0.4+incompatible // indirect
 	go.mongodb.org/mongo-driver/v2 v2.5.0 // indirect
-	go.uber.org/atomic v1.6.0 // indirect
+	go.uber.org/atomic v1.11.0 // indirect
 	go.uber.org/multierr v1.5.0 // indirect
 	go.uber.org/zap v1.15.0 // indirect
 	golang.org/x/arch v0.22.0 // indirect
