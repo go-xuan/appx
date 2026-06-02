@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/gin-gonic/gin v1.12.0
-	github.com/go-xuan/cachex v1.26.8
+	github.com/go-xuan/cachex v1.26.7
 	github.com/go-xuan/configx v1.26.7
 	github.com/go-xuan/nacosx v1.26.7
 	github.com/go-xuan/typex v1.26.0
