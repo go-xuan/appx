@@ -4,16 +4,16 @@ go 1.25.0
 
 require (
 	github.com/gin-gonic/gin v1.12.0
-	github.com/go-xuan/cachex v1.26.10
-	github.com/go-xuan/configx v1.26.10
-	github.com/go-xuan/nacosx v1.26.10
+	github.com/go-xuan/cachex v1.26.13
+	github.com/go-xuan/configx v1.26.13
+	github.com/go-xuan/nacosx v1.26.13
 	github.com/go-xuan/typex v1.26.4
 	github.com/go-xuan/utilx v1.26.6
 	github.com/golang-jwt/jwt/v4 v4.5.2
 	github.com/google/uuid v1.6.0
 	github.com/nacos-group/nacos-sdk-go v1.1.6
 	github.com/sirupsen/logrus v1.9.4
-	google.golang.org/grpc v1.79.1
+	google.golang.org/grpc v1.81.1
 	gorm.io/gorm v1.31.1
 )
 
@@ -65,12 +65,12 @@ require (
 	golang.org/x/arch v0.22.0 // indirect
 	golang.org/x/crypto v0.48.0 // indirect
 	golang.org/x/net v0.51.0 // indirect
-	golang.org/x/sync v0.19.0 // indirect
-	golang.org/x/sys v0.41.0 // indirect
+	golang.org/x/sync v0.20.0 // indirect
+	golang.org/x/sys v0.42.0 // indirect
 	golang.org/x/text v0.34.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20251202230838-ff82c1b0f217 // indirect
-	google.golang.org/protobuf v1.36.10 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20260226221140-a57be14db171 // indirect
+	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/ini.v1 v1.42.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
