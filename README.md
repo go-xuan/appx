@@ -221,7 +221,7 @@ mode: 2                       # int 模式（0-仅配置中心；1-仅服务发�
 
 ```yaml
 source: "default"             # string 数据源名称
-builder: "gorm"               # string 数据库构建器(默认：gorm)
+driver: "gorm"               # string 数据库驱动(默认：gorm)
 enable: false                 # bool 是否启用
 dialect: "mysql"              # string 数据库方言(mysql/postgres)
 host: "127.0.0.1"             # string host
@@ -268,7 +268,7 @@ redis配置文件路径：conf/cache.yaml
 
 ```yaml
 source: "default"             # string 数据源名称
-builder: "redis"              # string 客户端构造期类型（支持redis或者local，默认：local）
+driver: "redis"              # string 客户端驱动类型（支持redis或者local，默认：local）
 enable: true                  # bool 是否启用
 address: "localhost:6379"     # string 地址
 password: "123456"            # string 密码
@@ -282,14 +282,14 @@ mode: 0                       # int 模式（0-单机；1-集群），默认单�
 
 ```yaml
 - name: default
-  builder: local
+  driver: local
   enable:
   address: 
   password: 
   database: 
   mode: 0
 - name: redis_db1
-  builder: redis
+  driver: redis
   enable:
   address: 
   password: 
